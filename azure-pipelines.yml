@@ -1,0 +1,23 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- none
+
+pool:
+  vmImage: ubuntu-latest
+
+jobs:
+- task: AzureResourceManagerTemplateDeployment@3
+  displayName: Az CLI Deploy Mgmt Groups
+  inputs:
+    deploymentScope: 'Management Group'
+    azureResourceManagerConnection: 'Free Trial(adc9ac4e-5d7d-4870-802f-de35b0e17134)'
+    location: 'South India'
+    templateLocation: 'Linked artifact'
+    csmFile: 'infra-as-code/bicep/modules/managementGroups/managementGroups.bicep'
+    csmParametersFile: 'infra-as-code/bicep/modules/managementGroups/parameters/managementGroups.parameters.all.json'
+    deploymentMode: 'Validation'
+    addSpnToEnvironment: true
