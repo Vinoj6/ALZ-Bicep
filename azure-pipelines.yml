@@ -15,11 +15,15 @@ variables:
   TopLevelManagementGroupDisplayName: "Azure Landing Zones"
   Location: "SouthIndia"
   RunNumber: $(Build.BuildNumber)
+  
+jobs:
+- job:
+  steps:
 
-- task: AzureCLI@2
-    displayName: Az CLI Deploy Custom Policy Definitions
-    name: create_policy_defs
-    inputs:
+   - task: AzureCLI@2
+     displayName: Az CLI Deploy Custom Policy Definitions
+     name: create_policy_defs
+     inputs:
       azureSubscription: $(ServiceConnectionName)
       scriptType: 'bash'
       scriptLocation: 'inlineScript'
