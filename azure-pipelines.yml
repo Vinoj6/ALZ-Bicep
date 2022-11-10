@@ -12,32 +12,21 @@ pool:
 variables:
   ServiceConnectionName: "DevTestConnection"
   ManagementGroupPrefix: "afli"
-  TopLevelManagementGroupDisplayName: "ageas federal life insurance"
+  TopLevelManagementGroupDisplayName: "Azure Landing Zones"
   Location: "SouthIndia"
-  LoggingSubId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-  LoggingResourceGroupName: "afli-logging"
-  HubNetworkSubId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-  HubNetworkResourceGroupName: "Hub_Networking_POC"
-  RoleAssignmentManagementGroupId: "afli-platform"
-  SpokeNetworkSubId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-  SpokeNetworkResourceGroupName: "Spoke_Networking_POC"
   RunNumber: $(Build.BuildNumber)
 
-jobs:
-- job:
-  steps:
-
-  - task: AzureCLI@2
-    displayName: Az CLI Deploy Management Groups
-    name: create_mgs
+- task: AzureCLI@2
+    displayName: Az CLI Deploy Custom Policy Definitions
+    name: create_policy_defs
     inputs:
       azureSubscription: $(ServiceConnectionName)
       scriptType: 'bash'
       scriptLocation: 'inlineScript'
-      deploymentMode: 'Validation'
       inlineScript: |
-        az deployment tenant create \
-        --template-file infra-as-code/bicep/modules/managementGroups/managementGroups.bicep \
-        --parameters parTopLevelManagementGroupPrefix=$(ManagementGroupPrefix) parTopLevelManagementGroupDisplayName="$(TopLevelManagementGroupDisplayName)" \
+        az deployment mg create \
+        --template-file infra-as-code/bicep/modules/policy/definitions/customPolicyDefinitions.bicep  \
+        --parameters @infra-as-code/bicep/modules/policy/definitions/parameters/customPolicyDefinitions.parameters.all.json \
         --location $(Location) \
-        --name create_mgs-$(RunNumber)
+        --management-group-id $(ManagementGroupPrefix) \
+        --name create_policy_defs-$(RunNumber)
