@@ -9,17 +9,34 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  ServiceConnectionName: "DevTestConnection"
+  ManagementGroupPrefix: "afli"
+  TopLevelManagementGroupDisplayName: "ageas federal life insurance"
+  Location: "South India"
+  LoggingSubId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+  LoggingResourceGroupName: "afli-logging"
+  HubNetworkSubId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+  HubNetworkResourceGroupName: "Hub_Networking_POC"
+  RoleAssignmentManagementGroupId: "afli-platform"
+  SpokeNetworkSubId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+  SpokeNetworkResourceGroupName: "Spoke_Networking_POC"
+  RunNumber: $(Build.BuildNumber)
+
 jobs:
-  - job: Deploy
-    steps:
-      - task: AzureResourceManagerTemplateDeployment@3
-        displayName: Az CLI Deploy Mgmt Groups
-        inputs:
-          deploymentScope: 'Management Group'
-          azureResourceManagerConnection: 'Free Trial(adc9ac4e-5d7d-4870-802f-de35b0e17134)'
-          location: 'South India'
-          templateLocation: 'Linked artifact'
-          csmFile: 'infra-as-code/bicep/modules/managementGroups/managementGroups.bicep'
-          csmParametersFile: 'infra-as-code/bicep/modules/managementGroups/parameters/managementGroups.parameters.all.json'
-          deploymentMode: 'Validation'
-          addSpnToEnvironment: true
+- job:
+  steps:
+
+  - task: AzureCLI@2
+    displayName: Az CLI Deploy Management Groups
+    name: create_mgs
+    inputs:
+      azureSubscription: $(ServiceConnectionName)
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        az deployment tenant create \
+        --template-file infra-as-code/bicep/modules/managementGroups/managementGroups.bicep \
+        --parameters parTopLevelManagementGroupPrefix=$(ManagementGroupPrefix) parTopLevelManagementGroupDisplayName="$(TopLevelManagementGroupDisplayName)" \
+        --location $(Location) \
+        --name create_mgs-$(RunNumber)
