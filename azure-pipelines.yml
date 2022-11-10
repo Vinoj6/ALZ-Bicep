@@ -13,7 +13,7 @@ variables:
   ServiceConnectionName: "DevTestConnection"
   ManagementGroupPrefix: "afli"
   TopLevelManagementGroupDisplayName: "ageas federal life insurance"
-  Location: "South India"
+  Location: "SouthIndia"
   LoggingSubId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
   LoggingResourceGroupName: "afli-logging"
   HubNetworkSubId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
