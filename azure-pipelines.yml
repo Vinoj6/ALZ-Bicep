@@ -14,23 +14,29 @@ variables:
   ManagementGroupPrefix: "afli"
   TopLevelManagementGroupDisplayName: "Azure Landing Zones"
   Location: "SouthIndia"
+  LoggingSubId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+  LoggingResourceGroupName: "alz-logging"
+  HubNetworkSubId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+  HubNetworkResourceGroupName: "Hub_Networking_POC"
+  RoleAssignmentManagementGroupId: "alz-platform"
+  SpokeNetworkSubId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+  SpokeNetworkResourceGroupName: "Spoke_Networking_POC"
   RunNumber: $(Build.BuildNumber)
-  
+
 jobs:
 - job:
   steps:
 
-   - task: AzureCLI@2
-     displayName: Az CLI Deploy Custom Policy Definitions
-     name: create_policy_defs
-     inputs:
+  - task: AzureCLI@2
+    displayName: Az CLI Deploy Management Groups
+    name: create_mgs
+    inputs:
       azureSubscription: $(ServiceConnectionName)
       scriptType: 'bash'
       scriptLocation: 'inlineScript'
       inlineScript: |
-        az deployment mg create \
-        --template-file infra-as-code/bicep/modules/policy/definitions/customPolicyDefinitions.bicep  \
-        --parameters @infra-as-code/bicep/modules/policy/definitions/parameters/customPolicyDefinitions.parameters.all.json \
+        az deployment tenant create \
+        --template-file infra-as-code/bicep/modules/managementGroups/managementGroups.bicep \
+        --parameters parTopLevelManagementGroupPrefix=$(ManagementGroupPrefix) parTopLevelManagementGroupDisplayName="$(TopLevelManagementGroupDisplayName)" \
         --location $(Location) \
-        --management-group-id $(ManagementGroupPrefix) \
-        --name create_policy_defs-$(RunNumber)
+        --name create_mgs-$(RunNumber)
