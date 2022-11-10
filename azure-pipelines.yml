@@ -15,10 +15,10 @@ variables:
   TopLevelManagementGroupDisplayName: "Azure Landing Zones"
   Location: "SouthIndia"
   LoggingSubId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-  LoggingResourceGroupName: "alz-logging"
+  LoggingResourceGroupName: "afli-logging"
   HubNetworkSubId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
   HubNetworkResourceGroupName: "Hub_Networking_POC"
-  RoleAssignmentManagementGroupId: "alz-platform"
+  RoleAssignmentManagementGroupId: "afli-platform"
   SpokeNetworkSubId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
   SpokeNetworkResourceGroupName: "Spoke_Networking_POC"
   RunNumber: $(Build.BuildNumber)
