@@ -10,7 +10,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  ServiceConnectionName: "ServiceConnectionAutomaticMG4"
+  ServiceConnectionName: "svc-caf-devops"
   ManagementGroupPrefix: "afli"
   TopLevelManagementGroupDisplayName: "Azure Landing Zones"
   Location: "SouthIndia"
