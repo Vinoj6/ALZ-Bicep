@@ -10,7 +10,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  ServiceConnectionName: "SCNARM"
+  ServiceConnectionName: "DevConnection"
   ManagementGroupPrefix: "afli"
   TopLevelManagementGroupDisplayName: "Azure Landing Zones"
   Location: "SouthIndia"
