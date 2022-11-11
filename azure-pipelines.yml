@@ -10,7 +10,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  ServiceConnectionName: "ServiceConnectionManual3"
+  ServiceConnectionName: "ServiceConnectionAutomaticMG4"
   ManagementGroupPrefix: "afli"
   TopLevelManagementGroupDisplayName: "Azure Landing Zones"
   Location: "SouthIndia"
